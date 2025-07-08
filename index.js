@@ -8,8 +8,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const token = process.env.DISCORD_TOKEN;
-const clientId = process.env.CLIENT_ID;
-const guildId = process.env.GUILD_ID;
+const clientId = '1391759018149548043';
+const guildId = '638374935240376331';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,15 +19,21 @@ const client = new Client({
 });
 
 const commands = [];
-const commandFiles = fs.readdirSync(path.join(__dirname, 'commands')).filter(file => file.endsWith('.js'));
+const commandFiles = fs
+  .readdirSync(path.join(__dirname, 'commands'))
+  .filter(file => file.endsWith('.js'));
 
-// Cargar y registrar comandos
+// Cargar comandos
 for (const file of commandFiles) {
-  const { default: command } = await import(`./commands/${file}`);
-  commands.push(command.data.toJSON());
+  try {
+    const { default: command } = await import(`./commands/${file}`);
+    commands.push(command.data.toJSON());
+  } catch (err) {
+    console.error(`❌ Failed to load command ${file}:`, err);
+  }
 }
 
-// Registrar en Discord (solo para el servidor actual)
+// Registrar slash commands en Discord
 const rest = new REST({ version: '10' }).setToken(token);
 
 (async () => {
@@ -48,6 +54,7 @@ client.once('ready', () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
 });
 
+// Escuchar interacciones
 client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
