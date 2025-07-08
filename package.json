@@ -1,16 +1,20 @@
 {
   "name": "ochi-bot",
   "version": "1.0.0",
-  "description": "Kawaii Discord bot ✨",
+  "description": "Cute Discord bot with anime interactions and fun features 🐾",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js"
   },
+  "keywords": ["discord", "bot", "anime", "cute", "kawaii"],
+  "author": "ochigoto",
+  "license": "MIT",
   "dependencies": {
     "@types/node": "^22.13.11",
     "discord.js": "^14.21.0",
     "express": "^5.1.0",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "node-fetch": "^3.4.0"
   }
 }
